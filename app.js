@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${tx.description}</td>
                 <td>${tx.account}</td>
                 <td class="${amountClass}">${sign}$${parseFloat(tx.amount).toFixed(2)}</td>
+                <td><button onclick="deleteTx(${tx.id})" style="background: #f44336; padding: 5px 10px; margin: 0; font-size: 12px; border-radius: 4px; border: none; color: white; cursor: pointer;">Delete</button></td>
             `;
             ledgerBody.appendChild(tr);
         });
@@ -119,6 +120,27 @@ document.addEventListener('DOMContentLoaded', () => {
         reader.readAsText(file);
         importFile.value = '';
     });
+
+    // WIPE ALL DATA
+    const wipeBtn = document.getElementById('wipe-btn');
+    if (wipeBtn) {
+        wipeBtn.addEventListener('click', () => {
+            if(confirm("WARNING: This will permanently delete all transactions. Are you sure?")) {
+                transactions = [];
+                localStorage.removeItem('ledger_data');
+                updateDashboard();
+            }
+        });
+    }
+
+    // DELETE INDIVIDUAL TRANSACTION
+    window.deleteTx = function(id) {
+        if(confirm("Delete this transaction?")) {
+            transactions = transactions.filter(t => String(t.id) !== String(id));
+            localStorage.setItem('ledger_data', JSON.stringify(transactions));
+            updateDashboard();
+        }
+    };
 
     updateDashboard();
 });
