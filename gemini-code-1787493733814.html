@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ledger PWA</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="glass-container">
+        <header>
+            <h1>Ledger</h1>
+        </header>
+
+        <div class="dashboard grid-layout">
+            <div class="glass-card balance-card">
+                <h3>Checking Balance</h3>
+                <h2 id="checking-balance">$0.00</h2>
+            </div>
+            <div class="glass-card balance-card">
+                <h3>Credit Card Balance</h3>
+                <h2 id="credit-balance">$0.00</h2>
+            </div>
+        </div>
+
+        <div class="glass-card form-container">
+            <h3>New Transaction</h3>
+            <form id="tx-form">
+                <input type="date" id="date" required>
+                <select id="type">
+                    <option value="expense">Expense</option>
+                    <option value="income">Income</option>
+                </select>
+                <select id="account">
+                    <option value="checking">Checking</option>
+                    <option value="credit">Credit Card</option>
+                </select>
+                <input type="text" id="description" placeholder="Description (e.g., Target, Geico)" required>
+                <input type="number" id="amount" step="0.01" placeholder="Amount" required>
+                <button type="submit">Post to Ledger</button>
+            </form>
+        </div>
+
+        <div class="glass-card form-container">
+            <h3>Data Management</h3>
+            <div style="display: flex; gap: 10px;">
+                <button id="export-btn" style="background: #2196F3;">Export CSV</button>
+                <input type="file" id="import-file" accept=".csv" style="display: none;">
+                <button id="import-btn" style="background: #FF9800;" onclick="document.getElementById('import-file').click()">Import CSV</button>
+            </div>
+        </div>
+
+        <div class="glass-card table-container">
+            <h3>Transaction Ledger</h3>
+            <table id="ledger-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Desc</th>
+                        <th>Account</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="ledger-body"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
